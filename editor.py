@@ -30,8 +30,21 @@ def add_record():
         print("Ошибка: Введите все 6 значений (исполнитель, название трека, альбом, год, длительность, прослушивания).")
         return
 
-    if len(new_record)>6:
-        print("Ошибка: Больше полей чем нужно")
+    try:
+        year = int(new_record[3])
+        if not (1000 <= year <= 2026):  #проверка на диапазон
+            print("Ошибка: Год выпуска должен состоять из 4 цифр и быть в разумном диапазоне.")
+            return
+
+        long = new_record[4]
+        minutes, seconds = map(int, long.split(':'))
+        if not (0 <= minutes <= 59 and 0 <= seconds <= 59):
+            print("Ошибка: Некорректный формат или значение длительности (MM:SS).")
+            return
+
+        listenning = int(new_record[5])
+    except ValueError:
+        print("Ошибка: Год выпуска и Количество прослушиваний должны быть целыми числами, формат длительности MM:SS.")
         return
 
     if new_record in db:
@@ -42,7 +55,6 @@ def add_record():
     write_db(db)
     print("Запись успешно добавлена")
 
-
 # Функция для удаления записи
 def delete_record():
     display_db(db)
@@ -50,11 +62,12 @@ def delete_record():
     if 1 <= index < len(db):
         db.pop(index)
         write_db(db)
+    print("Запись успешно удалена")
 
 # Функция для редактирования записи
 def edit_record():
     display_db(db)
-    index = int(input("Введите номер записи для редактирования: ")) + 1
+    index = int(input("Введите номер записи для редактирования: "))
     if 1 <= index < len(db):
         field = int(input("Какой ключ редактировать? (1 - Исполнитель, 2 - Название трека, 3 - Альбом, 4 - Год выпуска, 5 - Длительность, 6 - Количество прослушиваний): "))
         new_value = input("Введите новое значение: ")
