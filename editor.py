@@ -66,23 +66,39 @@ def add_record():
 
 # Функция для удаления записи
 def delete_record():
-    print("Для выхода в меню введите 'назад'. Для выхода из программы введите 'выход'.") #подсказка пользователю
+    print("Для выхода в меню введите 'назад'. Для выхода из программы введите 'выход'.")
 
-    display_db(db)
-    record_del = input("Введите номер записи для удаления: ")
+    display_db(db) #показать базу данных
+    record_del = input("Введите номера записей для удаления через пробел или диапазон (например, 2-5): ") #ввод данных
 
     if record_del.lower() == "назад":
-        return #возврат в этапу ранее
+        return
     if record_del.lower() == "выход":
-        exit() #завершение программы
+        exit()
 
-    index = int(record_del) #если не ввели выход или назад, продолжаем удаление
-    if 1 <= index < len(db):
-        db.pop(index)
-        write_db(db)
-        print("Запись успешно удалена")#выводим после успешного удаления
-    else: #если ввели неверный индекс
-         print("Ошибка: Введён неверный номер записи")
+    try:
+        if '-' in record_del:
+            start, end = map(int, record_del.split('-')) #разделить введенные строчки по -
+            indices_to_delete = list(range(start, end + 1)) #сформировать список индексов
+
+        else:
+            indices_to_delete = [int(i) for i in record_del.split()] #создать список
+
+        indices_to_delete.sort(reverse=True)  # Удалять с конца, чтобы не нарушить нумерацию
+
+        for index in indices_to_delete: #удаление записей
+            if 1 <= index < len(db): #проверить наличие записи в базе
+                db.pop(index)
+                print(f"Запись {index} успешно удалена")
+            else:
+                print(f"Записи с номером {index} не существует")
+
+        write_db(db) #записать
+        print("Удаление завершено.")
+
+    except ValueError:
+        print("Ошибка: Неверный формат ввода.")
+
 
 # Функция для редактирования записи
 def edit_record():
