@@ -1,5 +1,13 @@
+"""Отсортировать медиатеку.
+
+Список всех аудиозаписей конкретного исполнителя, отсортированный по
+следующему ключу: альбом (по убыванию) + название трека (по возрастанию).
+Использовать метод Хоара
+"""
+
 
 def read_audiotracks(filename):
+    """Чтение данных из файла."""
     with open(filename, 'r', encoding='utf-8') as file:
         lines = file.readlines()
     tracks = []
@@ -15,15 +23,30 @@ def read_audiotracks(filename):
             tracks.append((artist, title, album, year, duration, listens))
     return tracks
 
-def filter_tracks_by_artist(tracks, artist_name):
-    return [track for track in tracks if track[0] == artist_name]
 
+def filter_tracks_by_artist(tracks, artist_name):
+    """.
+
+    Функция фильтрует список треков по имени исполнителя,
+    делая сравнение нечувствительным к регистру.
+    """
+    filtered_tracks = [
+        track for track in tracks
+        if track[0].lower() == artist_name.lower()
+    ]
+    if not filtered_tracks:
+        print(f"Исполнитель '{artist_name}' не найден в списке треков.")
+        return []
+
+    return filtered_tracks
 
 
 filename = 'audiotracks.txt'
 artist_name = input("Введите имя исполнителя: ")
 tracks = read_audiotracks(filename)
 artist_tracks = filter_tracks_by_artist(tracks, artist_name)
+
+
 def quicksort(arr, low, high):
     """Реализация быстрой сортировки (Хоара)."""
     if low < high:
@@ -40,11 +63,11 @@ def partition(arr, low, high):
 
     while True:
         i += 1
-        while compare_tracks(arr[i], pivot) < 0: # Убрали i < high, т.к. это уже условие выхода из цикла.
+        while compare_tracks(arr[i], pivot) < 0:
             i += 1
 
         j -= 1
-        while compare_tracks(arr[j], pivot) > 0: # Убрали j > low, т.к. это уже условие выхода из цикла.
+        while compare_tracks(arr[j], pivot) > 0:
             j -= 1
 
         if i >= j:
@@ -60,13 +83,11 @@ def compare_tracks(track1, track2):
     title1 = track1[1]
     title2 = track2[1]
 
-    # Сначала сравниваем альбомы по убыванию.
     if album1 > album2:
         return -1
     elif album1 < album2:
         return 1
-    else: # если альбомы равны
-        # Сравниваем названия треков по возрастанию.
+    else:
         if title1 < title2:
             return -1
         elif title1 > title2:
@@ -75,13 +96,12 @@ def compare_tracks(track1, track2):
             return 0
 
 
-def main():
+def main_sort_2():
+    """Основной модуль."""
     quicksort(artist_tracks, 0, len(artist_tracks) - 1)
     tracks = artist_tracks
 
-    quicksort(tracks, 0, len(tracks) - 1) # Запускаем сортировку
+    quicksort(tracks, 0, len(tracks) - 1)
 
-    for track in tracks: # Выводим отсортированный массив.
+    for track in tracks:
         print(','.join(track))
-main()
-
