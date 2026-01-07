@@ -1,3 +1,10 @@
+"""Отсортировать медиатеку.
+
+Список всех аудиозаписей, выпущенных в период с N1 до N2 года, отсортированный
+по следующему ключу: год выпуска (по убыванию) + исполнитель (по возрастанию).
+Использовать метод Хоара
+"""
+
 
 def read_audiotracks(filename):
     """Чтение данных из файла."""
@@ -21,19 +28,12 @@ def filter_tracks_by_year(tracks, start_year, end_year):
     """Фильтрует треки по диапазону лет."""
     filtered_tracks = []
     for track in tracks:
-        year = int(track[3]) # Преобразуем строку года в целое число
+        year = int(track[3])
         if start_year <= year <= end_year:
             filtered_tracks.append(track)
     return filtered_tracks
 
-# Основная часть программы
-filename = 'audiotracks.txt'
-tracks = read_audiotracks(filename)
 
-start_year = int(input("Введите начальный год: "))
-end_year = int(input("Введите конечный год: "))
-
-filtered_tracks = filter_tracks_by_year(tracks, start_year, end_year)
 def quicksort(arr, low, high):
     """Реализация быстрой сортировки (Хоара)."""
     if low < high:
@@ -50,11 +50,11 @@ def partition(arr, low, high):
 
     while True:
         i += 1
-        while compare_tracks(arr[i], pivot) < 0: # Убрали i < high, т.к. это уже условие выхода из цикла.
+        while compare_tracks(arr[i], pivot) < 0:
             i += 1
 
         j -= 1
-        while compare_tracks(arr[j], pivot) > 0: # Убрали j > low, т.к. это уже условие выхода из цикла.
+        while compare_tracks(arr[j], pivot) > 0:
             j -= 1
 
         if i >= j:
@@ -69,19 +69,28 @@ def compare_tracks(track1, track2):
     year2 = int(track2[3])
     artist1 = track1[0]
     artist2 = track2[0]
-
-    # Сначала сравниваем годы (по убыванию).
     if year1 != year2:
         return year2 - year1
     else:
-        # Если годы одинаковы, сравниваем имена исполнителей (по возрастанию).
         return (artist1 > artist2) - (artist1 < artist2)
 
 
-# Входные данные.
-if filtered_tracks:
-    quicksort(filtered_tracks, 0, len(filtered_tracks) - 1)
-    for track in filtered_tracks:
-        print(','.join(track)) # Вывод отфильтрованных треков в формате исходного файла
-else:
-    print("Нет треков, выпущенных в указанном диапазоне лет.")
+def main_sort_3():
+    """Основной модуль."""
+    filename = 'audiotracks.txt'
+    tracks = read_audiotracks(filename)
+    while True:
+        try:
+            start_year = int(input("Введите начальный год: "))
+            end_year = int(input("Введите конечный год: "))
+            break
+        except ValueError:
+            print('Неправильный ввод. Введите числа')
+            continue
+    filtered_tracks = filter_tracks_by_year(tracks, start_year, end_year)
+    if filtered_tracks:
+        quicksort(filtered_tracks, 0, len(filtered_tracks) - 1)
+        for track in filtered_tracks:
+            print(','.join(track))
+    else:
+        print("Нет треков, выпущенных в указанном диапазоне лет.")
