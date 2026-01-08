@@ -81,8 +81,18 @@ def main_sort_3():
     tracks = read_audiotracks(filename)
     while True:
         try:
-            start_year = int(input("Введите начальный год: "))
-            end_year = int(input("Введите конечный год: "))
+            start_year = input("Введите начальный год: ")
+            if start_year.lower() == 'назад':
+                return
+            if start_year.lower() == 'выход':
+                exit()
+            start_year = int(start_year)
+            end_year = input("Введите конечный год: ")
+            if end_year.lower() == 'назад':
+                return
+            if end_year.lower() == 'выход':
+                exit()
+            end_year = int(end_year)
             break
         except ValueError:
             print('Неправильный ввод. Введите числа')

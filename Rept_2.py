@@ -41,12 +41,6 @@ def filter_tracks_by_artist(tracks, artist_name):
     return filtered_tracks
 
 
-filename = 'audiotracks.txt'
-artist_name = input("Введите имя исполнителя: ")
-tracks = read_audiotracks(filename)
-artist_tracks = filter_tracks_by_artist(tracks, artist_name)
-
-
 def quicksort(arr, low, high):
     """Реализация быстрой сортировки (Хоара)."""
     if low < high:
@@ -98,6 +92,14 @@ def compare_tracks(track1, track2):
 
 def main_sort_2():
     """Основной модуль."""
+    filename = 'audiotracks.txt'
+    artist_name = input("Введите имя исполнителя: ")
+    if artist_name.lower() == 'назад':
+        return
+    if artist_name.lower() == 'выход':
+        exit()
+    tracks = read_audiotracks(filename)
+    artist_tracks = filter_tracks_by_artist(tracks, artist_name)
     quicksort(artist_tracks, 0, len(artist_tracks) - 1)
     tracks = artist_tracks
 
