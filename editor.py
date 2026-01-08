@@ -10,7 +10,7 @@
 (если это возможно)
 """
 
-FILENAME = 'audiotracks.csv'
+FILENAME = 'audiotracks.txt'
 
 
 def read_db():
@@ -200,27 +200,3 @@ def edit_record():
 
 
 db = read_db()
-
-while True:
-    print("\nМеню:")
-    print("1. Показать базу данных")
-    print("2. Добавить запись")
-    print("3. Удалить запись")
-    print("4. Редактировать запись")
-    print("Для выхода из программы введите 'выход'.")
-
-    choice = input("Выберите действие: ")
-
-    if choice.lower() == "выход":
-        break
-
-    if choice == '1':
-        display_db(db)
-    elif choice == '2':
-        add_record()
-    elif choice == '3':
-        delete_record()
-    elif choice == '4':
-        edit_record()
-    else:
-        print("Такой команды не существует")
