@@ -5,9 +5,7 @@
 """
 
 from editor import *
-from Rept_1 import *
-from Rept_2 import *
-from Rept_3 import *
+from sort import *
 
 records = read_db()
 

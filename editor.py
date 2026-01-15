@@ -31,7 +31,7 @@ def create():
          " 5:09, 140000000"],
         ["Ed Sheeran, Shape of You, ÷, 2017, 3:53, 1500000"],
         ["Billie Eilish, everything i wanted, When We All Fall Asleep. Where "
-         "Do We Go?, 2019, 4:48, 1600000000"],
+         "Do We Go?, 2019, 3:14, 1600000000"],
         ["Баста, Мама, Баста 1, 2006, 4:14, 26000000"],
         ["Руки Вверх, Чужие губы, Сделай ещё громче!, 1998, 4:02, 3100000"],
         ["Imagine Dragons, Thunder, Evolve,2017, 3:08, 1000000000"],
@@ -87,11 +87,25 @@ def write_db(data):
 
 def display_db(data):
     """Функция для демонстрации данных."""
-    print("Исполнитель,Название трека,Альбом,Год выпуска,"
-          "Длительность,Количество прослушиваний")
+    # Получаем ширину каждого столбца на основе самой длинной строки в этом столбце
+    column_widths = [max(len(str(item)) for item in column) for column in
+                     zip(*data)]
+
+    # Выводим заголовок с выравниванием по ширине столбцов
+    header = data[0]
+    formatted_header = " | ".join(
+        f"{header[i]:<{column_widths[i]}}" for i in range(len(header)))
+    print(formatted_header)
+
+    # Выводим разделительную линию
+    print("-" * len(formatted_header))
+
+    # Выводим данные с выравниванием по ширине столбцов
     for idx, row in enumerate(data[1:], start=1):
-        row = ','.join(row)
-        print(f"{idx}: {row}")
+        formatted_row = " | ".join(
+            f"{row[i]:<{column_widths[i]}}" for i in range(len(row)))
+        print(f"{idx}: {formatted_row}")
+
 
 
 def add_record():
