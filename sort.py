@@ -155,6 +155,9 @@ def compare_sort_3(track1, track2):
 def main_sort_1():
     """List all audio recordings sorted by: artist (ascending) + year (descending) + plays (descending)"""
     tracks = load_tracks()
+    if len(tracks) <= 1:  # Check if database is empty, considering header
+        print("База данных пуста. Добавьте хотя бы одну запись.")
+        return
     if tracks:
         # Сортируем только данные, без заголовка
         if len(tracks[0]) == 6 and tracks[0][0] == "Исполнитель":
@@ -170,6 +173,10 @@ def main_sort_1():
 
 def main_sort_2():
     """List all audio recordings of a specific artist sorted by: album (descending) + track title (ascending)"""
+    tracks = load_tracks()
+    if len(tracks) <= 1:
+        print("База данных пуста. Добавьте хотя бы одну запись.")
+        return
     artist_name = input("Введите имя исполнителя: ")
 
     if artist_name.lower() == 'назад':
@@ -196,6 +203,9 @@ def main_sort_2():
 def main_sort_3():
     """List all audio recordings released between years N1 and N2 sorted by: year (descending) + artist (ascending)"""
     tracks = load_tracks()
+    if len(tracks) <= 1:
+        print("База данных пуста. Добавьте хотя бы одну запись.")
+        return
 
     while True:
         try:
