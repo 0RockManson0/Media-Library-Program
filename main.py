@@ -87,5 +87,7 @@ while True:
                 main_sort_2()
             elif choice == '3':
                 main_sort_3()
+            else:
+                print("Такой команды не существует")
     else:
         print("Такой команды не существует")
