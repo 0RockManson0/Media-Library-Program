@@ -87,25 +87,20 @@ def write_db(data):
 
 def display_db(data):
     """Функция для демонстрации данных."""
-    # Получаем ширину каждого столбца на основе самой длинной строки в этом столбце
     column_widths = [max(len(str(item)) for item in column) for column in
                      zip(*data)]
 
-    # Выводим заголовок с выравниванием по ширине столбцов
     header = data[0]
     formatted_header = " | ".join(
         f"{header[i]:<{column_widths[i]}}" for i in range(len(header)))
     print(formatted_header)
 
-    # Выводим разделительную линию
     print("-" * len(formatted_header))
 
-    # Выводим данные с выравниванием по ширине столбцов
     for idx, row in enumerate(data[1:], start=1):
         formatted_row = " | ".join(
             f"{row[i]:<{column_widths[i]}}" for i in range(len(row)))
         print(f"{idx}: {formatted_row}")
-
 
 
 def add_record():
@@ -159,7 +154,7 @@ def add_record():
 
 def delete_record():
     """Удаляет запись из базы данных."""
-    if len(db) <= 1:  # Проверка пустой базы данных (учитываем заголовок)
+    if len(db) <= 1:
         print("База данных пуста. Добавьте хотя бы одну запись.")
         return
 
@@ -202,7 +197,7 @@ def delete_record():
 
 def edit_record():
     """Редактирует запись в базе данных."""
-    if len(db) <= 1:  # Проверка пустой базы данных (учитываем заголовок)
+    if len(db) <= 1:
         print("База данных пуста. Добавьте хотя бы одну запись.")
         return
 
